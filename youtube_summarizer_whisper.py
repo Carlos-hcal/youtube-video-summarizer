@@ -14,12 +14,11 @@ def criar_pastas():
 
 
 def limpar_nome_arquivo(nome):
-    # Remove caracteres inválidos no Windows
     return re.sub(r'[\\/*?:"<>|]', "_", nome)
 
 
 def baixar_audio(url):
-    criar_pastas()  # garante que a pasta audio/ exista
+    criar_pastas()
     try:
         yt = YouTube(url)
         titulo = limpar_nome_arquivo(yt.title)
@@ -28,24 +27,21 @@ def baixar_audio(url):
             print("Erro: não foi encontrado stream de áudio disponível.")
             sys.exit(1)
 
-        # Baixa para arquivo temporário simples
         tmp_file = "video_temp.mp4"
         stream.download(filename=tmp_file)
 
         caminho_mp3 = f"audio/{titulo}.mp3"
 
-        # Converte para MP3 usando ffmpeg
         subprocess.run(
             ["ffmpeg", "-y", "-i", tmp_file, "-vn", caminho_mp3],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
         )
 
-        # Remove arquivo temporário
+
         if os.path.exists(tmp_file):
             os.remove(tmp_file)
 
-        # Verifica se MP3 foi criado
         if not os.path.exists(caminho_mp3):
             print("Erro: arquivo MP3 não foi gerado. Verifique se o vídeo é baixável.")
             sys.exit(1)
@@ -58,7 +54,7 @@ def baixar_audio(url):
 
 
 def transcrever(audio_path):
-    model = whisper.load_model("small")  # "tiny" para mais rápido, "small" para mais preciso
+    model = whisper.load_model("small")
     result = model.transcribe(audio_path)
     return result["text"]
 
@@ -84,7 +80,6 @@ def main():
     audio_path, titulo = baixar_audio(sys.argv[1])
     texto = transcrever(audio_path)
 
-    # Pergunta ao usuário o que ele quer gerar
     print("\nEscolha a opção:")
     print("1 - Apenas transcrição completa")
     print("2 - Apenas resumo")
