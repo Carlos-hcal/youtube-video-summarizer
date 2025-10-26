@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="cover_summarizer.png" width="400"/>
+<img src="img/cover_summarizer.png" width="200" style="border-radius: 10px;" alt="YouTube Video Summarizer"/>
 
   <h1 align="center">YouTube Video Summarizer</h1>
 
@@ -11,8 +11,7 @@
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-![summarizer bash](<img width="1313" height="271" alt="image" src="https://github.com/user-attachments/assets/5d5458f8-4628-4fa5-80ea-9b50fe37671c" />
-)
+<img src="img/bash.png" width="1313" height="271" style="border-radius: 5px;"/>
 
 </div>
 
@@ -109,6 +108,8 @@ python youtube_summarizer_whisper.py https://www.youtube.com/watch?v=RvrDGKW31qQ
 
 **4°** O resultado será exibido no terminal e os arquivos salvos nas pastas correspondentes.
 
+<img src="img/result.png" width="400" style="border-radius: 5px;"/>
+
 ### Modelos do Whisper:
 
 ```bash
@@ -133,14 +134,10 @@ O script utiliza small por padrão, que é um bom equilíbrio entre velocidade e
 
 - Permite escolher entre transcrição completa ou resumo automático
 
-## Autor
+## Colaboradores
 
-Carlos Henrique
-
-💻 GitHub
-| 📧 (https://github.com/Carlos-hcal)
+<img src="https://contrib.rocks/image?repo=carlos-hcal/youtube-video-summarizer" />
 
 ## Licença
 
-Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE
-para detalhes.
+Youtube Video Summarizer está licenciado sob a Licença MIT.

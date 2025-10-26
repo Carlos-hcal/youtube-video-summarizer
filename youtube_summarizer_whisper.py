@@ -87,7 +87,7 @@ def main():
     # Pergunta ao usuário o que ele quer gerar
     print("\nEscolha a opção:")
     print("1 - Apenas transcrição completa")
-    print("2 - Apenas resumo (se maior que 500 caracteres)")
+    print("2 - Apenas resumo")
     print("3 - Ambos (transcrição e resumo)")
     opcao = input("Digite 1, 2 ou 3: ").strip()
 
