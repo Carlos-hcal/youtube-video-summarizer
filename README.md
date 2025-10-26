@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="cover_youtube-video_summarizer.png" alt="YouTube Video Summarizer" width="600">
+  <img src="cover_youtube_video_summarizer.png" alt="YouTube Video Summarizer" width="600">
 </p>
 
 # YouTube Video Summarizer
