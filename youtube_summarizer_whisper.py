@@ -13,18 +13,26 @@ def criar_pastas():
 
 def baixar_audio(url):
     yt = YouTube(url)
-    titulo = yt.title.replace("/", "_")
+    titulo = yt.title.replace("/", "_").replace(":", "_")
     stream = yt.streams.filter(only_audio=True).first()
     caminho_audio = f"audio/{titulo}.mp4"
     caminho_mp3 = f"audio/{titulo}.mp3"
 
-    stream.download(filename=caminho_audio)
+    try:
+        stream.download(filename=caminho_audio)
+    except Exception as e:
+        print(f"Erro ao baixar o vídeo: {e}")
+        sys.exit(1)
+
     subprocess.run(
         ["ffmpeg", "-y", "-i", caminho_audio, "-vn", caminho_mp3],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL
     )
-    os.remove(caminho_audio)
+
+    if os.path.exists(caminho_audio):
+        os.remove(caminho_audio)
+
     return caminho_mp3, titulo
 
 
