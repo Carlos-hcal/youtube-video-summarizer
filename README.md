@@ -118,7 +118,7 @@ python youtube_summarizer_whisper.py https://www.youtube.com/watch?v=RvrDGKW31qQ
 
 O script utiliza small por padrão, que é um bom equilíbrio entre velocidade e precisão.
 
-### Observações:
+## Observações:
 
 - Vídeos longos podem levar alguns minutos para processar
 
@@ -128,14 +128,14 @@ O script utiliza small por padrão, que é um bom equilíbrio entre velocidade e
 
 - Permite escolher entre transcrição completa ou resumo automático
 
-### Autor
+## Autor
 
 Carlos Henrique
 
 💻 GitHub
 | 📧 (https://github.com/Carlos-hcal)
 
-Licença
+## Licença
 
 Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE
 para detalhes.
