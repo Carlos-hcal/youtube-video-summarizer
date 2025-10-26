@@ -1,15 +1,20 @@
-<p align="center">
-  <img src="cover_summarizer.png" alt="YouTube Video Summarizer" width="600">
-</p>
+<div align="center">
 
-# YouTube Video Summarizer
+<img src="cover_summarizer.png" width="400"/>
+
+  <h1 align="center">YouTube Video Summarizer</h1>
+
+  <p align="center">
+    <strong>Uma aplicação Python que transcreve e resume vídeos do YouTube usando Whisper local, sem depender de créditos da OpenAI. Ideal para estudo, pesquisa ou consumo rápido de conteúdo de vídeos longos.</strong>
+  </p>
 
 [![Python](https://img.shields.io/badge/Python-3.12%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-🎬 Uma aplicação Python que **transcreve e resume vídeos do YouTube** usando **Whisper local**, sem depender de créditos da OpenAI. Ideal para estudo, pesquisa ou consumo rápido de conteúdo de vídeos longos.
+![summarizer bash](<img width="1313" height="271" alt="image" src="https://github.com/user-attachments/assets/5d5458f8-4628-4fa5-80ea-9b50fe37671c" />
+)
 
----
+</div>
 
 ## Funcionalidades
 
