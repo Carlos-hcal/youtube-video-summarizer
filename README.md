@@ -16,8 +16,11 @@
 - Baixa vídeos do YouTube (apenas áudio) usando **pytubefix**
 - Converte o áudio para MP3 usando **ffmpeg**
 - Transcreve o áudio em texto com **Whisper local**
-- Gera resumo do vídeo (ou transcrição completa, dependendo da versão do script)
-- Salva o resultado automaticamente em **`resumo.txt`** ou **`transcricao.txt`**
+- Gera **resumo do vídeo** ou transcrição completa (opção do usuário)
+- Salva os arquivos automaticamente nas pastas:
+  - `audio/` → arquivos de áudio MP3
+  - `transcricoes/` → transcrições completas
+  - `resumos/` → resumos
 - Funciona **offline**, sem limites de API
 
 ---
@@ -25,10 +28,10 @@
 ## Tecnologias Utilizadas
 
 - **Python 3.12+**
-- **pytubefix**: para baixar vídeos do YouTube
-- **ffmpeg**: para conversão de áudio
-- **Whisper (OpenAI)**: para transcrição de áudio
-- **requests** (opcional, para integração com APIs de resumo)
+- **pytubefix** → download de vídeos do YouTube
+- **ffmpeg** → conversão de áudio
+- **Whisper (OpenAI)** → transcrição de áudio local
+- **re** → limpeza de nomes de arquivos
 
 ---
 
@@ -42,7 +45,18 @@
 pip install pytubefix ffmpeg-python git+https://github.com/openai/whisper.git
 ```
 
-## Requisitos
+## Estrutura de Pastas:
+
+```bash
+youtube-video-summarizer/
+│
+├─ audio/           # Arquivos MP3 dos vídeos
+├─ transcricoes/    # Arquivos de transcrição completa
+├─ resumos/         # Arquivos de resumo
+├─ youtube_summarizer_whisper.py
+├─ README.md
+└─ LICENSE
+```
 
 ### Clone o repositório:
 
@@ -80,32 +94,39 @@ python youtube_summarizer_whisper.py <URL_DO_VIDEO>
 python youtube_summarizer_whisper.py https://www.youtube.com/watch?v=RvrDGKW31qQ
 ```
 
-### Resultado:
+**3°** Escolha a opção que deseja gerar:
 
-A transcrição ou resumo é exibido no terminal.
+```bash
+1 - Apenas transcrição completa
+2 - Apenas resumo (se maior que 500 caracteres)
+3 - Ambos (transcrição e resumo)
+```
 
-Um arquivo **resumo.txt** ou **transcricao.txt** é salvo na pasta.
-
-#### Exemplo de Saída:
-
-Resumo do vídeo:
-Oi pessoal, eu sou o Dólinho, seu amiguinho, vamos cantar!
+**4°** O resultado será exibido no terminal e os arquivos salvos nas pastas correspondentes.
 
 ### Modelos do Whisper:
 
-**"tiny"** → rápido, menor precisão
+```bash
+| Modelo | Velocidade   | Precisão           |
+| ------ | ------------ | ------------------ |
+| tiny   | Muito rápido | Menor precisão     |
+| base   | Rápido       | Média precisão     |
+| small  | Médio        | Mais preciso       |
+| medium | Lento        | Alta precisão      |
+| large  | Muito lento  | Excelente precisão |
+```
 
-**"base"** → equilíbrio entre velocidade e precisão
-
-**"small"** → mais preciso, mais lento
-
-**"medium"** / **"large"** → alta qualidade, uso intensivo de memória
+O script utiliza small por padrão, que é um bom equilíbrio entre velocidade e precisão.
 
 ### Observações:
 
-Vídeos longos podem levar alguns minutos para processar
+- Vídeos longos podem levar alguns minutos para processar
 
-Funciona em Windows, macOS e Linux
+- Funciona em Windows, macOS e Linux
+
+- Garante nomes de arquivos seguros, evitando caracteres inválidos
+
+- Permite escolher entre transcrição completa ou resumo automático
 
 ### Autor
 

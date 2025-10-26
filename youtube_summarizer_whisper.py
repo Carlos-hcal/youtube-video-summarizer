@@ -1,8 +1,10 @@
+# youtube_summarizer_whisper.py
 from pytubefix import YouTube
 import subprocess
 import os
 import sys
 import whisper
+import re
 
 
 def criar_pastas():
@@ -11,33 +13,52 @@ def criar_pastas():
             os.makedirs(pasta)
 
 
+def limpar_nome_arquivo(nome):
+    # Remove caracteres inválidos no Windows
+    return re.sub(r'[\\/*?:"<>|]', "_", nome)
+
+
 def baixar_audio(url):
-    yt = YouTube(url)
-    titulo = yt.title.replace("/", "_").replace(":", "_")
-    stream = yt.streams.filter(only_audio=True).first()
-    caminho_audio = f"audio/{titulo}.mp4"
-    caminho_mp3 = f"audio/{titulo}.mp3"
-
+    criar_pastas()  # garante que a pasta audio/ exista
     try:
-        stream.download(filename=caminho_audio)
+        yt = YouTube(url)
+        titulo = limpar_nome_arquivo(yt.title)
+        stream = yt.streams.filter(only_audio=True).first()
+        if not stream:
+            print("Erro: não foi encontrado stream de áudio disponível.")
+            sys.exit(1)
+
+        # Baixa para arquivo temporário simples
+        tmp_file = "video_temp.mp4"
+        stream.download(filename=tmp_file)
+
+        caminho_mp3 = f"audio/{titulo}.mp3"
+
+        # Converte para MP3 usando ffmpeg
+        subprocess.run(
+            ["ffmpeg", "-y", "-i", tmp_file, "-vn", caminho_mp3],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+        # Remove arquivo temporário
+        if os.path.exists(tmp_file):
+            os.remove(tmp_file)
+
+        # Verifica se MP3 foi criado
+        if not os.path.exists(caminho_mp3):
+            print("Erro: arquivo MP3 não foi gerado. Verifique se o vídeo é baixável.")
+            sys.exit(1)
+
+        return caminho_mp3, titulo
+
     except Exception as e:
-        print(f"Erro ao baixar o vídeo: {e}")
+        print(f"Erro ao baixar/converter o vídeo: {e}")
         sys.exit(1)
-
-    subprocess.run(
-        ["ffmpeg", "-y", "-i", caminho_audio, "-vn", caminho_mp3],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL
-    )
-
-    if os.path.exists(caminho_audio):
-        os.remove(caminho_audio)
-
-    return caminho_mp3, titulo
 
 
 def transcrever(audio_path):
-    model = whisper.load_model("small")
+    model = whisper.load_model("small")  # "tiny" para mais rápido, "small" para mais preciso
     result = model.transcribe(audio_path)
     return result["text"]
 
@@ -60,10 +81,10 @@ def main():
         print("Uso: python youtube_summarizer_whisper.py <URL_DO_VIDEO>")
         return
 
-    criar_pastas()
     audio_path, titulo = baixar_audio(sys.argv[1])
     texto = transcrever(audio_path)
 
+    # Pergunta ao usuário o que ele quer gerar
     print("\nEscolha a opção:")
     print("1 - Apenas transcrição completa")
     print("2 - Apenas resumo (se maior que 500 caracteres)")
@@ -86,7 +107,6 @@ def main():
         print("Opção inválida. Nenhum arquivo foi salvo.")
 
     print(f"\nArquivos organizados nas pastas: audio/, transcricoes/, resumos/")
-
 
 if __name__ == "__main__":
     main()
